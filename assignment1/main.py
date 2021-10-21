@@ -17,7 +17,31 @@ class User:
 # Takes in two user objects and outputs a float denoting compatibility
 def compute_score(user1, user2):
     # YOUR CODE HERE
-    return 0
+    # user_obj['name'], user_obj['gender'],
+    #                         user_obj['preferences'], user_obj['gradYear'],
+    #                         user_obj['responses']
+    final_score = 0
+
+    if not (user1.gender in user2.preferences): 
+        return 0
+
+    def grad_year_compatibility(user1, user2):
+        dictionary = {
+            0:11,
+            1:9,
+            2:6,
+            3:3
+        }
+        return dictionary[abs(user1.grad_year - user2.grad_year)]
+
+    def responses_compatibility(user1, user2):
+        return 100 - sum(abs(user1.responses[i] - user2.responses[i]) \
+                         for i in range(len(user1.responses)))
+
+    final_score += (grad_year_compatibility(user1, user2) + \
+                    responses_compatibility(user1, user2)) * 100 / 111
+
+    return grad_year_compatibility(user1, user2), responses_compatibility(user1, user2), final_score
 
 
 if __name__ == '__main__':
